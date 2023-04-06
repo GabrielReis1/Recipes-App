@@ -55,13 +55,15 @@ function RecipeInProgress() {
             <ul>
               { ingredients.map((ingredient, index) => (
                 <li key={ index }>
-                  <span data-testid={ `${index}-ingredient-name-and-measure` }>
-                    { ingredient }
-                  </span>
+                  <label data-testid={ `${index}-ingredient-step` }>
+                    <input type="checkbox" />
+                    <span>{ ingredient }</span>
+                  </label>
                 </li>
               ))}
             </ul>
           </section>
+
           <section className="instructions">
             <h2>Instructions</h2>
             <p data-testid="instructions">{ instructions }</p>
