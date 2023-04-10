@@ -43,6 +43,7 @@ function RecipeInProgress() {
 
     fetchRecipe();
   }, [id, type]);
+
   function handleFinishRecipe() {
     const inProgressRecipes = recipeInProgress;
     delete inProgressRecipes[type][id];
@@ -54,13 +55,6 @@ function RecipeInProgress() {
     const updatedIngredients = [...checkedIngredients];
     updatedIngredients[index] = !updatedIngredients[index];
     setCheckedIngredients(updatedIngredients);
-    const ingredientStep = document.getElementsByClassName(`ingredient-step-${index}`)[0];
-    const ingredientSpan = ingredientStep.querySelector('span');
-    if (checkedIngredients[index]) {
-      ingredientSpan.classList.remove('checked');
-    } else {
-      ingredientSpan.classList.add('checked');
-    }
   }
 
   return (
