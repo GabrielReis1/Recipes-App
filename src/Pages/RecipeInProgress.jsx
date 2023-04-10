@@ -1,53 +1,39 @@
 import { useState, useEffect } from 'react';
 import { useParams, useHistory, useLocation } from 'react-router-dom';
-import { getRecipeById } from '../Services/ApiRequest';
-import useRecipeInProgress from '../hooks/useRecipeInProgress';
 import ShareButton from '../Components/ShareButton';
-import FavoriteButton from '../Components/FavoriteButton';
+// import FavoriteButton from '../Components/FavoriteButton';
 import './recipeinprogress.css';
+import { LsDone, LsProgress } from '../Services/localStorageFuncs';
+import { useFilter } from '../Contexts/ProviderFilter';
 
 function RecipeInProgress() {
   const { id } = useParams();
   const history = useHistory();
   const { pathname } = useLocation();
-  const [recipe, setRecipe] = useState({});
-  const [ingredients, setIngredients] = useState([]);
-  const [instructions, setInstructions] = useState('');
   const type = pathname.includes('drinks') ? 'drinks' : 'meals';
-  const [recipeInProgress, setRecipeInProgress] = useRecipeInProgress(type);
-  const [
-    checkedIngredients,
-    setCheckedIngredients,
-  ] = useState(Array(ingredients.length).fill(false));
+  const { detailRecipes, setRecipeId } = useFilter();
+  const [ingredients, setIngredients] = useState([]);
+  const { id } = useParams();
+  const history = useHistory();
 
   useEffect(() => {
-    async function fetchRecipe() {
-      const fetchedRecipe = await getRecipeById(type, id);
-      setRecipe(fetchedRecipe);
-      const newIngredients = [];
-      const newMeasures = [];
-      const maxNum = 20;
-      for (let i = 1; i <= maxNum; i += 1) {
-        const ingredient = fetchedRecipe[`strIngredient${i}`];
-        const measure = fetchedRecipe[`strMeasure${i}`];
-        if (ingredient && measure) {
-          newIngredients.push(ingredient);
-          newMeasures.push(measure);
-        }
-      }
-      setIngredients(newIngredients.map(
-        (ingredient, index) => `${ingredient} - ${newMeasures[index]}`,
-      ));
-      setInstructions(fetchedRecipe.strInstructions);
-    }
+    const defaultLoad = () => {
+      if (type === 'meals') {
+        setRecipeId({ id, type: 'Meal' });
+      } else { setRecipeId({ id, type: 'Drink' }); }
+    };
 
-    fetchRecipe();
-  }, [id, type]);
+    const getRecipe = () => {
+      const recipe = LsProgress();
+      setIngredients(recipe[type][id]);
+    };
+
+    defaultLoad();
+    getRecipe();
+  }, []);
 
   function handleFinishRecipe() {
-    const inProgressRecipes = recipeInProgress;
-    delete inProgressRecipes[type][id];
-    setRecipeInProgress(inProgressRecipes);
+    LsDone('done', id, type, detailRecipes);
     history.push('/done-recipes');
   }
 
@@ -61,47 +47,46 @@ function RecipeInProgress() {
     <main>
       <section>
         <img
-          src={ recipe.strMealThumb || recipe.strDrinkThumb }
-          alt={ recipe.strMeal || recipe.strDrink }
+          src={ detailRecipes.strMealThumb || detailRecipes.strDrinkThumb }
+          alt={ detailRecipes.strMeal || detailRecipes.strDrink }
           data-testid="recipe-photo"
           className="recipe-photo"
         />
         <section className="recipe-details">
           <div className="recipe-header">
-            <h1 data-testid="recipe-title">{ recipe.strMeal || recipe.strDrink }</h1>
-            <ShareButton data-testid="share-btn" type={ type } id={ id } />
-            <FavoriteButton recipe={ recipe } type={ type } data-testid="favorite-btn" />
+            <h1 data-testid="recipe-title">
+              { detailRecipes.strMeal || detailRecipes.strDrink }
+
+            </h1>
+            <ShareButton
+              type={ type }
+              data-testid="share-btn"
+            />
+            {/* <FavoriteButton
+              recipe={ detailRecipes }
+              type={ type }
+              data-testid="favorite-btn"
+            /> */}
           </div>
-          <h3 data-testid="recipe-category">{ recipe.strCategory }</h3>
+          <h3 data-testid="recipe-category">{ detailRecipes.strCategory }</h3>
           <section className="ingredients-list">
             <h2>Ingredients</h2>
             <ul>
-              { ingredients.map((ingredient, index) => (
-                <li key={ index }>
-                  <label
-                    className={ `ingredient-step-${index}` }
-                    data-testid={ `${index}-ingredient-step` }
-                    style={ checkedIngredients[index]
-                      ? { textDecoration: 'line-through solid rgb(0, 0, 0)' } : {} }
-                  >
-                    <input
-                      type="checkbox"
-                      checked={ checkedIngredients[index] }
-                      onChange={ () => handleIngredientCheck(index) }
-                    />
-                    <span
-                      className={ checkedIngredients[index] ? 'checked' : '' }
-                    >
-                      {ingredient}
-                    </span>
-                  </label>
+              { ingredients?.map((ingredient, idx) => (
+                <li
+                  data-testid={ `${idx}-ingredient-name-and-measure` }
+                  key={ idx }
+                >
+                  { detailRecipes[ingredient] }
+                  {' '}
+                  { detailRecipes[`strMeasure${idx + 1}`] }
                 </li>
               ))}
             </ul>
           </section>
           <section className="instructions">
             <h2>Instructions</h2>
-            <p data-testid="instructions">{ instructions }</p>
+            <p data-testid="instructions">{ detailRecipes.strInstructions }</p>
           </section>
         </section>
         <button

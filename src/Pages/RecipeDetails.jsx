@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useFilter } from '../Contexts/ProviderFilter';
 import { getDrinksRecipes, getMealsRecipes } from '../Services/ApiRequest';
+import { LsProgress, verifyRecipe } from '../Services/localStorageFuncs';
 
 import '../Components/recipes.css';
 import './carousel.css';
@@ -10,22 +11,23 @@ function RecipeDetails() {
   const history = useHistory();
   const { detailRecipes, setRecipeId } = useFilter();
   const [recomendedRecipes, setRecomendedRecipes] = useState([]);
+  const [recipeStatus, setRecipeStatus] = useState('');
   const [path, setPath] = useState('');
+
   const { id } = useParams();
   const { pathname } = history.location;
-
-  console.log(detailRecipes);
+  const actualPath = pathname.includes('drinks') ? 'drinks' : 'meals';
 
   useEffect(() => {
-    const defaultLoad = (recipeId, actualPath) => {
-      if (actualPath === '/meals') {
+    const defaultLoad = (recipeId) => {
+      if (actualPath === 'meals') {
         setRecipeId({ id: recipeId, type: 'Meal' });
       } else { setRecipeId({ id: recipeId, type: 'Drink' }); }
     };
 
-    const fetchRecipes = async (actualPath) => {
+    const fetchRecipes = async () => {
       const five = 5;
-      if (actualPath === '/meals') {
+      if (actualPath === 'meals') {
         const recipesRes = await getDrinksRecipes();
         setRecomendedRecipes(recipesRes.filter((_, idx) => idx <= five));
       } else {
@@ -34,19 +36,18 @@ function RecipeDetails() {
       }
     };
 
-    const paths = ['/meals', '/drinks'];
-    const regex = new RegExp(`(${paths.join('|')})/\\d+$`);
-    const actualPath = pathname.replace(regex, (match, group) => group);
-    setPath(actualPath === '/meals' ? 'Drink' : 'Meal');
+    setRecipeStatus(verifyRecipe(id, actualPath));
 
-    defaultLoad(id, actualPath);
-    fetchRecipes(actualPath);
+    setPath(actualPath === 'meals' ? 'Drink' : 'Meal');
+
+    defaultLoad(id);
+    fetchRecipes();
   }, []);
 
   const ingredients = detailRecipes
-    && Object.keys(detailRecipes)
-      .filter((ingredient) => ingredient.includes('strIngredient')
-      && detailRecipes[ingredient]);
+  && Object.keys(detailRecipes)
+    .filter((ingredient) => ingredient.includes('strIngredient')
+  && detailRecipes[ingredient]);
 
   if (!detailRecipes) {
     return <div>Loading...</div>;
@@ -136,16 +137,23 @@ function RecipeDetails() {
         )) }
       </div>
 
-      <button
-        type="button"
-        data-testid="start-recipe-btn"
-        className="start-recipe-btn"
-        onClick={ () => history.push(path === 'Drink'
-          ? `/meals/${id}/in-progress`
-          : `/drinks/${id}/in-progress`) }
-      >
-        Start Recipe
-      </button>
+      { recipeStatus === 'done'
+        ? ''
+        : (
+          <button
+            type="button"
+            data-testid="start-recipe-btn"
+            className="start-recipe-btn"
+            onClick={ () => {
+              LsProgress('save', id, path === 'Meal' ? 'drinks' : 'meals', detailRecipes);
+              history.push(path === 'Drink'
+                ? `/meals/${id}/in-progress`
+                : `/drinks/${id}/in-progress`);
+            } }
+          >
+            { recipeStatus === 'inProgress'
+              ? <span>Continue Recipe</span> : <span>Start Recipe</span> }
+          </button>) }
     </section>
   );
 }

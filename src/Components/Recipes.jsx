@@ -55,7 +55,7 @@ function Recipes({ path, recipes, categories }) {
       </section>
       <section
         className="recipes-grid"
-        data-testId="recipes-grid"
+        data-testid="recipes-grid"
       >
         { categoryFilter?.map((recipe, idx) => (
           <article
