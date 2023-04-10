@@ -42,14 +42,12 @@ function RecipeInProgress() {
     const updatedIngredients = [...checkedIngredients];
     updatedIngredients[index] = !updatedIngredients[index];
     setCheckedIngredients(updatedIngredients);
-
-    const ingredientStep = document.querySelector(`#${index}-ingredient-step span`);
-    if (ingredientStep) {
-      if (updatedIngredients[index]) {
-        ingredientStep.classList.add('checked');
-      } else {
-        ingredientStep.classList.remove('checked');
-      }
+    const ingredientStep = document.getElementsByClassName(`ingredient-step-${index}`)[0];
+    const ingredientSpan = ingredientStep.querySelector('span');
+    if (checkedIngredients[index]) {
+      ingredientSpan.classList.remove('checked');
+    } else {
+      ingredientSpan.classList.add('checked');
     }
   }
 
@@ -74,7 +72,12 @@ function RecipeInProgress() {
             <ul>
               { ingredients.map((ingredient, index) => (
                 <li key={ index }>
-                  <label data-testid={ `${index}-ingredient-step` }>
+                  <label
+                    className={ `ingredient-step-${index}` }
+                    data-testid={ `${index}-ingredient-step` }
+                    style={ checkedIngredients[index]
+                      ? { textDecoration: 'line-through solid rgb(0, 0, 0)' } : {} }
+                  >
                     <input
                       type="checkbox"
                       checked={ checkedIngredients[index] }
@@ -83,7 +86,7 @@ function RecipeInProgress() {
                     <span
                       className={ checkedIngredients[index] ? 'checked' : '' }
                     >
-                      { ingredient }
+                      {ingredient}
                     </span>
                   </label>
                 </li>
