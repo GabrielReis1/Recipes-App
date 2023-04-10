@@ -4,7 +4,7 @@
   padding: 0;
 }
 
-body .root {
+/* body .root {
   align-items: center;
   background-color: #efefef;
   display: flex;
@@ -12,16 +12,16 @@ body .root {
   height: 100vh;
   justify-content: center;
   width: 100vw;
-}
+} */
 
-.app {
+/* .app {
   background-color: white;
   border-radius: 15px;
   height: 640px;
   overflow: hidden;
   position: relative;
   width: 360px;
-}
+} */
 
 h1, h2, h3, h4 {
   color: #7b38df;

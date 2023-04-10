@@ -66,7 +66,7 @@
   flex-direction: column;
   gap: 1rem;
   height: calc(44% + 360px);
-  overflow: auto;
+  overflow: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -123,4 +123,9 @@ fieldset ul {
 fieldset p {
   font-size: 0.9rem;
   line-height: 1.25rem;
+}
+
+.start-recipe-btn {
+  position: fixed;
+  bottom: 0;
 }

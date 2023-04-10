@@ -20,6 +20,7 @@ function Meals() {
       setMealsCategories(categoriesRes.filter((_, idx) => idx <= four));
       setCategoryFilter(recipesRes.filter((_, idx) => idx <= eleven));
     };
+
     requestMeals();
   }, []);
 

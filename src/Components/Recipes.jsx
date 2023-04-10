@@ -19,7 +19,6 @@ function Recipes({ path, recipes, categories }) {
 
     const filterRes = await getByCategory(url, path);
     setCategoryFilter(filterRes.filter((_, idx) => idx <= eleven));
-    console.log(categoryFilter);
   };
 
   const categoryVerify = (category) => {
@@ -54,10 +53,13 @@ function Recipes({ path, recipes, categories }) {
           All
         </button>
       </section>
-      <section className="recipes-grid">
+      <section
+        className="recipes-grid"
+        data-testId="recipes-grid"
+      >
         { categoryFilter?.map((recipe, idx) => (
           <article
-            key={ recipe[`id${path}`] }
+            key={ idx }
             data-testid={ `${idx}-recipe-card` }
             className="recipes-card"
             aria-hidden="true"

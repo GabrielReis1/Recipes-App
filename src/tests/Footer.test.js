@@ -5,16 +5,25 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import Meals from '../Pages/Meals';
 import Drinks from '../Pages/Drinks';
+import ProviderFilter from '../Contexts/ProviderFilter';
 
 describe('Verifica o Footer da aplicação', () => {
   it('Verifica se o componente Footer é renderizado na página /meals', () => {
-    render(<Meals />);
+    render(
+      <ProviderFilter>
+        <Meals />
+      </ProviderFilter>,
+    );
 
     const footer = screen.getByTestId('footer');
     expect(footer).toBeInTheDocument();
   });
   it('Verifica se os inputs sao renderizados', () => {
-    render(<Meals />);
+    render(
+      <ProviderFilter>
+        <Meals />
+      </ProviderFilter>,
+    );
 
     const drinksBtn = screen.getByTestId('drinks-bottom-btn');
     const mealsBtn = screen.getByTestId('meals-bottom-btn');
@@ -26,9 +35,12 @@ describe('Verifica o Footer da aplicação', () => {
   it('Verifica se ao clicar no botao de drinks a rota é /drinks', () => {
     const history = createMemoryHistory();
     render(
-      <Router history={ history }>
-        <Meals />
-      </Router>,
+      <ProviderFilter>
+        <Router history={ history }>
+          <Meals />
+        </Router>
+        ,
+      </ProviderFilter>,
     );
 
     const drinksBtn = screen.getByTestId('drinks-bottom-btn');
@@ -44,9 +56,12 @@ describe('Verifica o Footer da aplicação', () => {
   it('Verifica se ao clicar no botao de meals a rota é /meals', () => {
     const history = createMemoryHistory();
     render(
-      <Router history={ history }>
-        <Drinks />
-      </Router>,
+      <ProviderFilter>
+        <Router history={ history }>
+          <Drinks />
+        </Router>
+        ,
+      </ProviderFilter>,
     );
 
     const mealsBtn = screen.getByTestId('meals-bottom-btn');

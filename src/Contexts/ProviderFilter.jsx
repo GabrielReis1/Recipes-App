@@ -7,7 +7,7 @@ export const ContextFilter = createContext();
 function ProviderFilter({ children }) {
   const [categoryFilter, setCategoryFilter] = useState([]);
   const [recipeId, setRecipeId] = useState(null);
-  const [detailRecipes, setDetailRecipes] = useState(null);
+  const [detailRecipes, setDetailRecipes] = useState({});
 
   useEffect(() => {
     const fetchRecipeDetails = async () => {

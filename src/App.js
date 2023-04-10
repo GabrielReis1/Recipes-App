@@ -8,7 +8,7 @@ import Drinks from './Pages/Drinks';
 import Profile from './Pages/Profile';
 import Done from './Pages/Done';
 import Favorites from './Pages/Favorites';
-import RecipeDetails from './Components/RecipeDetails';
+import RecipeDetails from './Pages/RecipeDetails';
 import RecipeInProgress from './Pages/RecipeInProgress';
 
 function App() {

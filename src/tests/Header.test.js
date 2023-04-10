@@ -5,16 +5,24 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import Meals from '../Pages/Meals';
 import Drinks from '../Pages/Drinks';
+import ProviderFilter from '../Contexts/ProviderFilter';
 
 describe('Verifica o Header da aplicação', () => {
   it('Verifica se o componente Header é renderizado na página /meals', () => {
-    render(<Meals />);
-
+    render(
+      <ProviderFilter>
+        <Meals />
+      </ProviderFilter>,
+    );
     const header = screen.getByTestId('header-component');
     expect(header).toBeInTheDocument();
   });
   it('Verifica se os inputs sao renderizados', () => {
-    render(<Meals />);
+    render(
+      <ProviderFilter>
+        <Meals />
+      </ProviderFilter>,
+    );
 
     const lupaBtn = screen.getByTestId('search-top-btn');
     const profileBtn = screen.getByTestId('profile-top-btn');
@@ -24,7 +32,11 @@ describe('Verifica o Header da aplicação', () => {
   });
 
   it('Verifica se ao clicar no botao de busca aparece o input de texto', () => {
-    render(<Meals />);
+    render(
+      <ProviderFilter>
+        <Meals />
+      </ProviderFilter>,
+    );
 
     const lupaBtn = screen.getByTestId('search-top-btn');
 
@@ -39,10 +51,14 @@ describe('Verifica o Header da aplicação', () => {
 
   it('Verifica se ao clicar no botao de perfil a rota é /profile', () => {
     const history = createMemoryHistory();
+
     render(
-      <Router history={ history }>
-        <Meals />
-      </Router>,
+      <ProviderFilter>
+        <Router history={ history }>
+          <Meals />
+        </Router>
+        ,
+      </ProviderFilter>,
     );
 
     const profileBtn = screen.getByTestId('profile-top-btn');
@@ -55,7 +71,11 @@ describe('Verifica o Header da aplicação', () => {
   });
 
   it('Verifica o título é renderizado de acordo com a rota /meals', () => {
-    render(<Meals />);
+    render(
+      <ProviderFilter>
+        <Meals />
+      </ProviderFilter>,
+    );
 
     const heading = screen.getByRole('heading', { level: 2 });
 
@@ -63,7 +83,11 @@ describe('Verifica o Header da aplicação', () => {
   });
 
   it('Verifica o título é renderizado de acordo com a rota /drinks', () => {
-    render(<Drinks />);
+    render(
+      <ProviderFilter>
+        <Drinks />
+      </ProviderFilter>,
+    );
 
     const heading = screen.getByRole('heading', { level: 2 });
 

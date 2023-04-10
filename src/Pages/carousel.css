@@ -1,0 +1,20 @@
+.carousel-container {
+  display: flex;
+  font-size: 13px;
+  gap: 1.2rem;
+  margin: 0 1rem;
+  min-height: 195px;
+  overflow: auto;
+  scroll-snap-type: x mandatory;
+  width: 320px;
+}
+
+.carousel-item {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+.card-img {
+  border-radius: 5px;
+  width: 150px;
+}
