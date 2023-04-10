@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useHistory, useLocation } from 'react-router-dom';
-import { getRecipeById, getIngredientAndMeasureList } from '../Services/ApiRequest';
+import { getRecipeById } from '../Services/ApiRequest';
 import useRecipeInProgress from '../hooks/useRecipeInProgress';
 import ShareButton from '../Components/ShareButton';
 import FavoriteButton from '../Components/FavoriteButton';
@@ -24,13 +24,25 @@ function RecipeInProgress() {
     async function fetchRecipe() {
       const fetchedRecipe = await getRecipeById(type, id);
       setRecipe(fetchedRecipe);
-      setIngredients(getIngredientAndMeasureList(fetchedRecipe));
+      const newIngredients = [];
+      const newMeasures = [];
+      const maxNum = 20;
+      for (let i = 1; i <= maxNum; i += 1) {
+        const ingredient = fetchedRecipe[`strIngredient${i}`];
+        const measure = fetchedRecipe[`strMeasure${i}`];
+        if (ingredient && measure) {
+          newIngredients.push(ingredient);
+          newMeasures.push(measure);
+        }
+      }
+      setIngredients(newIngredients.map(
+        (ingredient, index) => `${ingredient} - ${newMeasures[index]}`,
+      ));
       setInstructions(fetchedRecipe.strInstructions);
     }
 
     fetchRecipe();
   }, [id, type]);
-
   function handleFinishRecipe() {
     const inProgressRecipes = recipeInProgress;
     delete inProgressRecipes[type][id];
