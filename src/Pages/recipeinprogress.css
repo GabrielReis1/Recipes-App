@@ -8,3 +8,7 @@ main {
   height: auto;
   max-width: 100%;
 }
+
+.checked {
+  text-decoration: line-through solid black;
+}

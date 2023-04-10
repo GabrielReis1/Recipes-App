@@ -17,10 +17,6 @@ function useRecipeInProgress(type, id) {
         initialRecipeInProgress[type] = {};
       }
 
-      if (!initialRecipeInProgress[type]) {
-        initialRecipeInProgress[type] = {};
-      }
-
       initialRecipeInProgress[type][id] = [];
       setRecipeInProgress(initialRecipeInProgress);
     }

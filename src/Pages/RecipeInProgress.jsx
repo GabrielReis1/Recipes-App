@@ -7,14 +7,18 @@ import FavoriteButton from '../Components/FavoriteButton';
 import './recipeinprogress.css';
 
 function RecipeInProgress() {
+  const { id } = useParams();
+  const history = useHistory();
   const { pathname } = useLocation();
-  const type = pathname.includes('drinks') ? 'drinks' : 'meals';
   const [recipe, setRecipe] = useState({});
   const [ingredients, setIngredients] = useState([]);
   const [instructions, setInstructions] = useState('');
+  const type = pathname.includes('drinks') ? 'drinks' : 'meals';
   const [recipeInProgress, setRecipeInProgress] = useRecipeInProgress(type);
-  const { id } = useParams();
-  const history = useHistory();
+  const [
+    checkedIngredients,
+    setCheckedIngredients,
+  ] = useState(Array(ingredients.length).fill(false));
 
   useEffect(() => {
     async function fetchRecipe() {
@@ -32,6 +36,21 @@ function RecipeInProgress() {
     delete inProgressRecipes[type][id];
     setRecipeInProgress(inProgressRecipes);
     history.push('/done-recipes');
+  }
+
+  function handleIngredientCheck(index) {
+    const updatedIngredients = [...checkedIngredients];
+    updatedIngredients[index] = !updatedIngredients[index];
+    setCheckedIngredients(updatedIngredients);
+
+    const ingredientStep = document.querySelector(`#${index}-ingredient-step span`);
+    if (ingredientStep) {
+      if (updatedIngredients[index]) {
+        ingredientStep.classList.add('checked');
+      } else {
+        ingredientStep.classList.remove('checked');
+      }
+    }
   }
 
   return (
@@ -56,14 +75,21 @@ function RecipeInProgress() {
               { ingredients.map((ingredient, index) => (
                 <li key={ index }>
                   <label data-testid={ `${index}-ingredient-step` }>
-                    <input type="checkbox" />
-                    <span>{ ingredient }</span>
+                    <input
+                      type="checkbox"
+                      checked={ checkedIngredients[index] }
+                      onChange={ () => handleIngredientCheck(index) }
+                    />
+                    <span
+                      className={ checkedIngredients[index] ? 'checked' : '' }
+                    >
+                      { ingredient }
+                    </span>
                   </label>
                 </li>
               ))}
             </ul>
           </section>
-
           <section className="instructions">
             <h2>Instructions</h2>
             <p data-testid="instructions">{ instructions }</p>
