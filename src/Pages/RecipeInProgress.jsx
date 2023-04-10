@@ -69,7 +69,7 @@ function RecipeInProgress() {
         <section className="recipe-details">
           <div className="recipe-header">
             <h1 data-testid="recipe-title">{ recipe.strMeal || recipe.strDrink }</h1>
-            <ShareButton data-testid="share-btn" />
+            <ShareButton data-testid="share-btn" type={ type } id={ id } />
             <FavoriteButton recipe={ recipe } type={ type } data-testid="favorite-btn" />
           </div>
           <h3 data-testid="recipe-category">{ recipe.strCategory }</h3>
