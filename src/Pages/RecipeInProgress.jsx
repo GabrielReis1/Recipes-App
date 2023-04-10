@@ -7,12 +7,13 @@ import { LsDone, LsProgress } from '../Services/localStorageFuncs';
 import { useFilter } from '../Contexts/ProviderFilter';
 
 function RecipeInProgress() {
+  const { id } = useParams();
+  const history = useHistory();
   const { pathname } = useLocation();
   const type = pathname.includes('drinks') ? 'drinks' : 'meals';
   const { detailRecipes, setRecipeId } = useFilter();
   const [ingredients, setIngredients] = useState([]);
-  const { id } = useParams();
-  const history = useHistory();
+  const [checkedIngredients, setCheckedIngredients] = useState([]);
 
   useEffect(() => {
     const defaultLoad = () => {
@@ -22,18 +23,31 @@ function RecipeInProgress() {
     };
 
     const getRecipe = () => {
-      const recipe = LsProgress();
-      setIngredients(recipe[type][id]);
+      const savedRecipe = LsProgress();
+      const recipe = savedRecipe[type]
+      && savedRecipe[type][id] ? savedRecipe[type][id] : {};
+      setIngredients(recipe);
     };
 
     defaultLoad();
     getRecipe();
   }, []);
 
+  function handleIngredientClick(event) {
+    const ingredient = event.target.value;
+    if (event.target.checked) {
+      setCheckedIngredients([...checkedIngredients, ingredient]);
+    } else {
+      setCheckedIngredients(checkedIngredients.filter((i) => i !== ingredient));
+    }
+  }
+
   function handleFinishRecipe() {
     LsDone('done', id, type, detailRecipes);
     history.push('/done-recipes');
   }
+
+  const style = 'line-through solid rgb(0, 0, 0)';
 
   return (
     <main>
@@ -64,16 +78,27 @@ function RecipeInProgress() {
           <section className="ingredients-list">
             <h2>Ingredients</h2>
             <ul>
-              { ingredients?.map((ingredient, idx) => (
-                <li
-                  data-testid={ `${idx}-ingredient-name-and-measure` }
-                  key={ idx }
-                >
-                  { detailRecipes[ingredient] }
-                  {' '}
-                  { detailRecipes[`strMeasure${idx + 1}`] }
-                </li>
-              ))}
+              {ingredients?.map((ingredient, idx) => {
+                const isChecked = checkedIngredients.includes(ingredient);
+                return (
+                  <li key={ idx }>
+                    <label
+                      data-testid={ `${idx}-ingredient-step` }
+                      style={ isChecked ? { textDecoration: style } : {} }
+                    >
+                      <input
+                        type="checkbox"
+                        value={ ingredient }
+                        checked={ isChecked }
+                        onChange={ handleIngredientClick }
+                      />
+                      {detailRecipes[ingredient]}
+                      {' '}
+                      {detailRecipes[`strMeasure${idx + 1}`]}
+                    </label>
+                  </li>
+                );
+              })}
             </ul>
           </section>
           <section className="instructions">
