@@ -3,6 +3,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useFilter } from '../Contexts/ProviderFilter';
 import { getDrinksRecipes, getMealsRecipes } from '../Services/ApiRequest';
 import { LsProgress, verifyRecipe } from '../Services/localStorageFuncs';
+import ShareButton from '../Components/ShareButton';
+import FavoriteButton from '../Components/FavoriteButton';
 
 import '../Components/recipes.css';
 import './carousel.css';
@@ -86,6 +88,14 @@ function RecipeDetails() {
       <h1 className="details-title" data-testid="recipe-title">
         {strMeal || strDrink}
       </h1>
+
+      <section>
+        <ShareButton
+          type={ actualPath }
+          id={ id }
+        />
+        <FavoriteButton />
+      </section>
 
       <fieldset>
         <legend>Ingredients</legend>
