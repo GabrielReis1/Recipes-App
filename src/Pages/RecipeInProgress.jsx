@@ -5,6 +5,7 @@ import ShareButton from '../Components/ShareButton';
 import './recipeinprogress.css';
 import { LsDone, LsProgress } from '../Services/localStorageFuncs';
 import { useFilter } from '../Contexts/ProviderFilter';
+import FavoriteButton from '../Components/FavoriteButton';
 
 function RecipeInProgress() {
   const { pathname } = useLocation();
@@ -52,13 +53,13 @@ function RecipeInProgress() {
             </h1>
             <ShareButton
               type={ type }
-              data-testid="share-btn"
+              id={ id }
             />
-            {/* <FavoriteButton
-              recipe={ detailRecipes }
+            <FavoriteButton
               type={ type }
-              data-testid="favorite-btn"
-            /> */}
+              id={ id }
+              detailRecipes={ detailRecipes }
+            />
           </div>
           <h3 data-testid="recipe-category">{ detailRecipes.strCategory }</h3>
           <section className="ingredients-list">
