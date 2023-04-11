@@ -1,9 +1,8 @@
 import React from 'react';
-import { screen, fireEvent, act } from '@testing-library/react';
-import ProviderFilter from '../Contexts/ProviderFilter';
-import { Provider } from '../Contexts/ProviderData';
-import SearchBar from '../Components/SearchBar';
+import { screen, act, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../helpers/renderWithRouter';
+import Header from '../Components/Header';
 
 const inputSearch = 'search-input';
 const ingredienteRadio = 'ingredient-search-radio';
@@ -11,14 +10,11 @@ const ingredienteRadio = 'ingredient-search-radio';
 describe('Testa o componente SearchBar', () => {
   beforeEach(async () => {
     await act(async () => {
-      renderWithRouter(
-        <Provider>
-          <ProviderFilter>
-            <SearchBar />
-          </ProviderFilter>
-        </Provider>,
-      );
+      renderWithRouter(<Header title="Meals" />);
     });
+    const searchButton = screen.getByTestId('search-top-btn');
+    expect(searchButton).toBeInTheDocument();
+    userEvent.click(searchButton);
   });
 
   it('Deve renderizar o input de search', () => {
@@ -28,8 +24,8 @@ describe('Testa o componente SearchBar', () => {
 
   it('Deve atualizar o input de search quando o usuário interage', () => {
     const searchInput = screen.getByTestId(inputSearch);
-    fireEvent.change(searchInput, { target: { value: 'broccoli' } });
-    expect(searchInput.value).toBe('broccoli');
+    userEvent.type(searchInput, 'Chicken');
+    expect(searchInput.value).toBe('Chicken');
 
     const ingredientRadio = screen.getByTestId(ingredienteRadio);
     const nameRadio = screen.getByTestId('name-search-radio');
@@ -38,7 +34,7 @@ describe('Testa o componente SearchBar', () => {
     const allRadios = [ingredientRadio, nameRadio, firstLetterRadio];
 
     allRadios.forEach((radioChecked) => {
-      fireEvent.click(radioChecked);
+      userEvent.click(radioChecked);
 
       expect(radioChecked).toBeChecked();
 
@@ -52,10 +48,11 @@ describe('Testa o componente SearchBar', () => {
     const searchInput = screen.getByTestId(inputSearch);
     const ingredientRadio = screen.getByTestId(ingredienteRadio);
 
-    fireEvent.change(searchInput, { target: { value: 'broccoli' } });
-    fireEvent.click(ingredientRadio);
+    userEvent.type(searchInput, 'Chicken');
+    expect(searchInput.value).toBe('Chicken');
+    userEvent.click(ingredientRadio);
 
     const submitButton = screen.getByTestId('exec-search-btn');
-    fireEvent.click(submitButton);
+    userEvent.click(submitButton);
   });
 });
