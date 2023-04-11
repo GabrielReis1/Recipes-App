@@ -7,7 +7,6 @@ import shareIcon from '../images/shareIcon.svg';
 function ShareButton({ type, id, testeId }) {
   const [copied, setCopied] = useState(false);
   // const { recipeId } = useFilter();
-
   const shareUrl = `http://localhost:3000/${type}/${id}`;
 
   const handleClick = () => {
