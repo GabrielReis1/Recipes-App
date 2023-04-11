@@ -4,9 +4,11 @@ import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import { LsFavorite } from '../Services/localStorageFuncs';
 import './recipes.css';
+import { useFilter } from '../Contexts/ProviderFilter';
 
-function FavoriteButton({ id, type, detailRecipes }) {
+function FavoriteButton({ id, type, detailRecipes, testeId }) {
   const [isFavorite, setIsFavorite] = useState(false);
+  const { reloadFavorites, setReloadFavorites } = useFilter();
 
   const verifyFavorite = () => { setIsFavorite(LsFavorite('isFavorite', id)); };
 
@@ -20,15 +22,16 @@ function FavoriteButton({ id, type, detailRecipes }) {
         LsFavorite(isFavorite
           ? 'removeFavorite' : 'addFavorite', id, type, detailRecipes);
         verifyFavorite();
+        setReloadFavorites(!reloadFavorites);
       } }
     >
       {
         isFavorite ? <img
-          data-testid="favorite-btn"
+          data-testid={ testeId }
           src={ blackHeartIcon }
           alt="favorite"
         />
-          : <img data-testid="favorite-btn" src={ whiteHeartIcon } alt="not favorite" />
+          : <img data-testid={ testeId } src={ whiteHeartIcon } alt="not favorite" />
       }
     </button>
   );
@@ -37,6 +40,7 @@ function FavoriteButton({ id, type, detailRecipes }) {
 FavoriteButton.propTypes = {
   id: PropTypes.number,
   type: PropTypes.string,
+  testeId: PropTypes.string,
   detailRecipes: PropTypes.shape({}),
 }.isRequired;
 

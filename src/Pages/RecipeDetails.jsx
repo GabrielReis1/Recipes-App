@@ -88,12 +88,14 @@ function RecipeDetails() {
           <ShareButton
             type={ actualPath }
             id={ id }
+            testeId="share-btn"
           />
 
           <FavoriteButton
             type={ actualPath }
             id={ id }
             detailRecipes={ detailRecipes }
+            testeId="favorite-btn"
           />
         </div>
       </header>

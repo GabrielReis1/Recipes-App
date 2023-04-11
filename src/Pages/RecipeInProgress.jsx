@@ -54,11 +54,13 @@ function RecipeInProgress() {
             <ShareButton
               type={ type }
               id={ id }
+              testeId="share-btn"
             />
             <FavoriteButton
               type={ type }
               id={ id }
               detailRecipes={ detailRecipes }
+              testeId="favorite-btn"
             />
           </div>
           <h3 data-testid="recipe-category">{ detailRecipes.strCategory }</h3>
