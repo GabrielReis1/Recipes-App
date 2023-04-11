@@ -63,6 +63,39 @@ export function LsDone(action, id, type, detailRecipes) {
   }
 }
 
+export function LsFavorite(action, id, type, detailRecipes) {
+  let getFavoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+  if (!getFavoriteRecipes) { getFavoriteRecipes = []; }
+
+  const path = type === 'meals' ? 'Meal' : 'Drink';
+
+  switch (action) {
+  case 'addFavorite':
+    localStorage.setItem('favoriteRecipes', JSON.stringify([
+      ...getFavoriteRecipes, {
+        id,
+        type: path.toLowerCase(),
+        nationality: detailRecipes.strArea || '',
+        category: detailRecipes.strCategory || '',
+        alcoholicOrNot: detailRecipes.strAlcoholic || '',
+        name: detailRecipes[`str${path}`],
+        image: detailRecipes[`str${path}Thumb`],
+      },
+    ]));
+    break;
+
+  case 'removeFavorite':
+    localStorage.setItem('favoriteRecipes', JSON.stringify(getFavoriteRecipes
+      .filter((recipe) => recipe.id !== id)));
+    break;
+
+  case 'isFavorite':
+    return getFavoriteRecipes.some((recipe) => recipe.id === id);
+
+  default: return getFavoriteRecipes;
+  }
+}
+
 export function verifyRecipe(id, type) {
   let getRecipesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
   if (!getRecipesInProgress) { getRecipesInProgress = { drinks: {}, meals: {} }; }
