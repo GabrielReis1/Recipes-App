@@ -15,7 +15,6 @@ function FavoriteButton({ id, type, detailRecipes }) {
   return (
     <button
       type="button"
-      data-testid="favorite-btn"
       className="share-and-favorite"
       onClick={ () => {
         LsFavorite(isFavorite
@@ -24,8 +23,12 @@ function FavoriteButton({ id, type, detailRecipes }) {
       } }
     >
       {
-        isFavorite ? <img src={ blackHeartIcon } alt="favorite" />
-          : <img src={ whiteHeartIcon } alt="not favorite" />
+        isFavorite ? <img
+          data-testid="favorite-btn"
+          src={ blackHeartIcon }
+          alt="favorite"
+        />
+          : <img data-testid="favorite-btn" src={ whiteHeartIcon } alt="not favorite" />
       }
     </button>
   );
