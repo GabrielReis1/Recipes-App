@@ -83,19 +83,24 @@ function RecipeDetails() {
             ? `${strCategory} - ${strAlcoholic}`
             : strCategory }
         </p>
+
+        <div>
+          <ShareButton
+            type={ actualPath }
+            id={ id }
+          />
+
+          <FavoriteButton
+            type={ actualPath }
+            id={ id }
+            detailRecipes={ detailRecipes }
+          />
+        </div>
       </header>
 
       <h1 className="details-title" data-testid="recipe-title">
         {strMeal || strDrink}
       </h1>
-
-      <section>
-        <ShareButton
-          type={ actualPath }
-          id={ id }
-        />
-        <FavoriteButton />
-      </section>
 
       <fieldset>
         <legend>Ingredients</legend>

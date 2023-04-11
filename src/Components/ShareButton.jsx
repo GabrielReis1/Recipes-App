@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clipboardCopy from 'clipboard-copy';
 import shareIcon from '../images/shareIcon.svg';
+import './recipes.css';
 
 function ShareButton({ type, id }) {
   const [copied, setCopied] = useState(false);
@@ -16,8 +17,13 @@ function ShareButton({ type, id }) {
   };
 
   return (
-    <button type="button" onClick={ handleClick } data-testid="share-btn">
-      {copied ? 'Link copied!' : <img src={ shareIcon } alt="shareIcon" /> }
+    <button
+      type="button"
+      onClick={ handleClick }
+      data-testid="share-btn"
+      className="share-and-favorite"
+    >
+      { copied ? 'Link copied!' : <img src={ shareIcon } alt="shareIcon" /> }
     </button>
   );
 }

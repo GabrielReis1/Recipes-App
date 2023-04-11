@@ -76,8 +76,16 @@
 }
 
 .details-header {
-  margin-top: -160px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-top: -180px;
   padding: 0 1rem;
+  width: 100%;
+}
+
+.details-header div {
+  display: flex;
 }
 
 .details-title {
@@ -100,6 +108,24 @@
   height: 160px;
   object-fit: cover;
   width: 360px;
+}
+
+.share-and-favorite {
+  align-items: center;
+  color: #333;
+  display: flex;
+  font-size: 10px;
+  height: 35px;
+  justify-content: center;
+  width: 35px;
+}
+
+.share-and-favorite:hover {
+  background-color: #fb0;
+}
+
+.share-and-favorite img {
+  width: 20px;
 }
 
 fieldset {
