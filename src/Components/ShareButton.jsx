@@ -17,7 +17,7 @@ function ShareButton({ type, id }) {
 
   return (
     <button type="button" onClick={ handleClick } data-testid="share-btn">
-      {copied ? 'Link copiado!' : <img src={ shareIcon } alt="shareIcon" /> }
+      {copied ? 'Link copied!' : <img src={ shareIcon } alt="shareIcon" /> }
     </button>
   );
 }
