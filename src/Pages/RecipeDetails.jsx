@@ -3,6 +3,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useFilter } from '../Contexts/ProviderFilter';
 import { getDrinksRecipes, getMealsRecipes } from '../Services/ApiRequest';
 import { LsProgress, verifyRecipe } from '../Services/localStorageFuncs';
+import ShareButton from '../Components/ShareButton';
+import FavoriteButton from '../Components/FavoriteButton';
 
 import '../Components/recipes.css';
 import './carousel.css';
@@ -81,6 +83,21 @@ function RecipeDetails() {
             ? `${strCategory} - ${strAlcoholic}`
             : strCategory }
         </p>
+
+        <div>
+          <ShareButton
+            type={ actualPath }
+            id={ id }
+            testeId="share-btn"
+          />
+
+          <FavoriteButton
+            type={ actualPath }
+            id={ id }
+            detailRecipes={ detailRecipes }
+            testeId="favorite-btn"
+          />
+        </div>
       </header>
 
       <h1 className="details-title" data-testid="recipe-title">
@@ -105,9 +122,7 @@ function RecipeDetails() {
 
       <fieldset>
         <legend>Instructions</legend>
-        <p data-testid="instructions">
-          { strInstructions }
-        </p>
+        <p data-testid="instructions">{ strInstructions }</p>
       </fieldset>
 
       <video
@@ -137,9 +152,8 @@ function RecipeDetails() {
         )) }
       </div>
 
-      { recipeStatus === 'done'
-        ? ''
-        : (
+      { recipeStatus !== 'done'
+        && (
           <button
             type="button"
             data-testid="start-recipe-btn"

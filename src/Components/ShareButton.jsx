@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clipboardCopy from 'clipboard-copy';
 import shareIcon from '../images/shareIcon.svg';
-import { useFilter } from '../Contexts/ProviderFilter';
+// import './recipes.css';
 
-function ShareButton({ type }) {
+function ShareButton({ type, id, testeId }) {
   const [copied, setCopied] = useState(false);
-  const { recipeId } = useFilter();
-
-  const shareUrl = `http://localhost:3000/${type}/${recipeId.id}`;
+  // const { recipeId } = useFilter();
+  const shareUrl = `http://localhost:3000/${type}/${id}`;
 
   const handleClick = () => {
     const Timeout = 2000;
@@ -18,13 +17,24 @@ function ShareButton({ type }) {
   };
 
   return (
-    <button type="button" onClick={ handleClick } data-testid="share-btn">
-      {copied ? 'Link copiado!' : <img src={ shareIcon } alt="shareIcon" /> }
+    <button
+      type="button"
+      onClick={ handleClick }
+      className="share-and-favorite"
+    >
+      { copied
+        ? 'Link copied!'
+        : <img data-testid={ testeId } src={ shareIcon } alt="shareIcon" /> }
     </button>
   );
 }
 
 ShareButton.propTypes = {
+  id: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
+  testeId: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
 };
 

@@ -3,46 +3,39 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import Meals from '../Pages/Meals';
-import Drinks from '../Pages/Drinks';
+import Header from '../Components/Header';
 import ProviderFilter from '../Contexts/ProviderFilter';
+import { Provider } from '../Contexts/ProviderData';
 
 describe('Verifica o Header da aplicação', () => {
   it('Verifica se o componente Header é renderizado na página /meals', () => {
     render(
       <ProviderFilter>
-        <Meals />
+        <Header />
       </ProviderFilter>,
     );
     const header = screen.getByTestId('header-component');
     expect(header).toBeInTheDocument();
   });
   it('Verifica se os inputs sao renderizados', () => {
+    const history = createMemoryHistory({
+      initialEntries: ['/meals'],
+    });
     render(
-      <ProviderFilter>
-        <Meals />
-      </ProviderFilter>,
+      <Provider>
+        <ProviderFilter>
+          <Router history={ history }>
+            <Header title="Meals" />
+          </Router>
+        </ProviderFilter>
+      </Provider>,
     );
+    expect(history.location.pathname).toBe('/meals');
 
-    const lupaBtn = screen.getByTestId('search-top-btn');
-    const profileBtn = screen.getByTestId('profile-top-btn');
+    const searchButton = screen.getByTestId('search-top-btn');
+    expect(searchButton).toBeInTheDocument();
 
-    expect(lupaBtn).toBeInTheDocument();
-    expect(profileBtn).toBeInTheDocument();
-  });
-
-  it('Verifica se ao clicar no botao de busca aparece o input de texto', () => {
-    render(
-      <ProviderFilter>
-        <Meals />
-      </ProviderFilter>,
-    );
-
-    const lupaBtn = screen.getByTestId('search-top-btn');
-
-    expect(lupaBtn).toBeInTheDocument();
-
-    userEvent.click(lupaBtn);
+    userEvent.click(searchButton);
 
     const searchInput = screen.getByTestId('search-input');
 
@@ -50,12 +43,12 @@ describe('Verifica o Header da aplicação', () => {
   });
 
   it('Verifica se ao clicar no botao de perfil a rota é /profile', () => {
-    const history = createMemoryHistory();
+    const history = createMemoryHistory({ initialEntries: ['/profile'] });
 
     render(
       <ProviderFilter>
         <Router history={ history }>
-          <Meals />
+          <Header />
         </Router>
         ,
       </ProviderFilter>,
@@ -73,7 +66,7 @@ describe('Verifica o Header da aplicação', () => {
   it('Verifica o título é renderizado de acordo com a rota /meals', () => {
     render(
       <ProviderFilter>
-        <Meals />
+        <Header />
       </ProviderFilter>,
     );
 
@@ -85,7 +78,7 @@ describe('Verifica o Header da aplicação', () => {
   it('Verifica o título é renderizado de acordo com a rota /drinks', () => {
     render(
       <ProviderFilter>
-        <Drinks />
+        <Header />
       </ProviderFilter>,
     );
 

@@ -8,6 +8,7 @@ function ProviderFilter({ children }) {
   const [categoryFilter, setCategoryFilter] = useState([]);
   const [recipeId, setRecipeId] = useState(null);
   const [detailRecipes, setDetailRecipes] = useState({});
+  const [reloadFavorites, setReloadFavorites] = useState(false);
 
   useEffect(() => {
     const fetchRecipeDetails = async () => {
@@ -30,12 +31,16 @@ function ProviderFilter({ children }) {
     recipeId,
     setRecipeId,
     detailRecipes,
+    reloadFavorites,
+    setReloadFavorites,
   }), [
     categoryFilter,
     setCategoryFilter,
     recipeId,
     setRecipeId,
     detailRecipes,
+    reloadFavorites,
+    setReloadFavorites,
   ]);
 
   return (
