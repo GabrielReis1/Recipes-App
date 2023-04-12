@@ -12,9 +12,9 @@
   height: 100vh;
   justify-content: center;
   width: 100vw;
-} */
+}
 
-/* .app {
+.app {
   background-color: white;
   border-radius: 15px;
   height: 640px;
@@ -28,9 +28,16 @@ h1, h2, h3, h4 {
   font-weight: 800;
 }
 
+.loading {
+  margin: 80px auto;
+  text-align: center;
+}
+
 .login-page {
   align-items: center;
-  background-color: #7b38df;
+  background-image: url('./images/login-bg.png');
+  background-repeat: no-repeat;
+  background-size: cover;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -46,7 +53,8 @@ h1, h2, h3, h4 {
 
 .login-form {
   align-items: center;
-  background-color: #fb0;
+  backdrop-filter: blur(16px);
+  background-color: rgb(255, 187, 0, 0.12);
   border-radius: 10px;
   display: flex;
   flex-direction: column;

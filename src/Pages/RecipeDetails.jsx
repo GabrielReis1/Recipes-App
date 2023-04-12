@@ -122,9 +122,7 @@ function RecipeDetails() {
 
       <fieldset>
         <legend>Instructions</legend>
-        <p data-testid="instructions">
-          { strInstructions }
-        </p>
+        <p data-testid="instructions">{ strInstructions }</p>
       </fieldset>
 
       <video
@@ -154,9 +152,8 @@ function RecipeDetails() {
         )) }
       </div>
 
-      { recipeStatus === 'done'
-        ? ''
-        : (
+      { recipeStatus !== 'done'
+        && (
           <button
             type="button"
             data-testid="start-recipe-btn"
