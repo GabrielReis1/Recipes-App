@@ -50,48 +50,52 @@ function RecipeInProgress() {
 
       <header className="details-header">
         <p data-testid="recipe-category" className="details-category">
-          { detailRecipes.Alcoholic === 'Alcoholic'
+          { detailRecipes.strAlcoholic === 'Alcoholic'
             ? `${detailRecipes.strCategory} - ${detailRecipes.strAlcoholic}`
             : detailRecipes.strCategory }
         </p>
-      </header>
-      <section className="recipe-details">
-        <div className="recipe-header">
-          <h1 data-testid="recipe-title">
-            { detailRecipes.strMeal || detailRecipes.strDrink }
 
-          </h1>
+        <div>
           <ShareButton
             type={ type }
             id={ id }
+            testeId="share-btn"
           />
+
           <FavoriteButton
             type={ type }
             id={ id }
             detailRecipes={ detailRecipes }
+            testeId="favorite-btn"
           />
         </div>
+      </header>
 
-        <section className="ingredients-list">
-          <h2>Ingredients</h2>
-          <ul>
-            { ingredients?.map((ingredient, idx) => (
-              <li
-                data-testid={ `${idx}-ingredient-name-and-measure` }
-                key={ idx }
-              >
-                { detailRecipes[ingredient] }
-                {' '}
-                { detailRecipes[`strMeasure${idx + 1}`] }
-              </li>
-            ))}
-          </ul>
-        </section>
-        <section className="instructions">
-          <h2>Instructions</h2>
-          <p data-testid="instructions">{ detailRecipes.strInstructions }</p>
-        </section>
-      </section>
+      <h1 className="details-title" data-testid="recipe-title">
+        { detailRecipes.strMeal || detailRecipes.strDrink }
+      </h1>
+
+      <fieldset>
+        <legend>Ingredients</legend>
+        <ul>
+          { ingredients?.map((ingredient, idx) => (
+            <li
+              data-testid={ `${idx}-ingredient-name-and-measure` }
+              key={ idx }
+            >
+              { detailRecipes[ingredient] }
+              {' '}
+              { detailRecipes[`strMeasure${idx + 1}`] }
+            </li>
+          ))}
+        </ul>
+      </fieldset>
+
+      <fieldset>
+        <legend>Instructions</legend>
+        <p data-testid="instructions">{ detailRecipes.strInstructions }</p>
+      </fieldset>
+
       <button
         type="button"
         data-testid="finish-recipe-btn"

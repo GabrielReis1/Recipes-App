@@ -88,12 +88,14 @@ function RecipeDetails() {
           <ShareButton
             type={ actualPath }
             id={ id }
+            testeId="share-btn"
           />
 
           <FavoriteButton
             type={ actualPath }
             id={ id }
             detailRecipes={ detailRecipes }
+            testeId="favorite-btn"
           />
         </div>
       </header>
@@ -120,9 +122,7 @@ function RecipeDetails() {
 
       <fieldset>
         <legend>Instructions</legend>
-        <p data-testid="instructions">
-          { strInstructions }
-        </p>
+        <p data-testid="instructions">{ strInstructions }</p>
       </fieldset>
 
       <video
@@ -152,9 +152,8 @@ function RecipeDetails() {
         )) }
       </div>
 
-      { recipeStatus === 'done'
-        ? ''
-        : (
+      { recipeStatus !== 'done'
+        && (
           <button
             type="button"
             data-testid="start-recipe-btn"
