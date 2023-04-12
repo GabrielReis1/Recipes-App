@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, act, waitFor } from '@testing-library/react';
+import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../helpers/renderWithRouter';
 import Header from '../Components/Header';
@@ -75,7 +75,7 @@ describe('Testa o componente SearchBar', () => {
 
     expect(global.fetch).toBeCalledTimes(0);
 
-    //SIMPLESMENTE NAO CHAMA NADA NO TESTE. POR QUE? NAO SEI
+    // SIMPLESMENTE NAO CHAMA NADA NO TESTE. POR QUE? NAO SEI
 
     // const ingredient = await screen.findByText('Lentils 1 cup');
     // expect(ingredient).toBeInTheDocument();
