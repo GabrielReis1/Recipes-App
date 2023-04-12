@@ -8,6 +8,7 @@ import { useFilter } from '../Contexts/ProviderFilter';
 function Drinks() {
   const [drinksRecipes, setDrinksRecipes] = useState([]);
   const [drinksCategories, setDrinksCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { setCategoryFilter } = useFilter();
 
   useEffect(() => {
@@ -19,6 +20,7 @@ function Drinks() {
       setDrinksRecipes(recipesRes.filter((_, idx) => idx <= eleven));
       setDrinksCategories(categoriesRes.filter((_, idx) => idx <= four));
       setCategoryFilter(recipesRes.filter((_, idx) => idx <= eleven));
+      setLoading(false);
     };
     requestDrinks();
   }, []);
@@ -26,12 +28,14 @@ function Drinks() {
   return (
     <>
       <Header title="Drinks" />
-
-      <Recipes
-        path="Drink"
-        recipes={ drinksRecipes }
-        categories={ drinksCategories }
-      />
+      { loading
+        ? <h3 className="loading">loading recipes...</h3>
+        : (
+          <Recipes
+            path="Drink"
+            recipes={ drinksRecipes }
+            categories={ drinksCategories }
+          />) }
       <Footer />
     </>
   );
