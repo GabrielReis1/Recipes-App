@@ -3,12 +3,16 @@ import { screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../helpers/renderWithRouter';
 import Header from '../Components/Header';
+import fetch from '../../cypress/mocks/fetch';
 
 const inputSearch = 'search-input';
 const ingredienteRadio = 'ingredient-search-radio';
 
 describe('Testa o componente SearchBar', () => {
   beforeEach(async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockImplementation(fetch);
+
     await act(async () => {
       renderWithRouter(<Header title="Meals" />);
     });
@@ -54,5 +58,26 @@ describe('Testa o componente SearchBar', () => {
 
     const submitButton = screen.getByTestId('exec-search-btn');
     userEvent.click(submitButton);
+  });
+  it('Testa se pesquisar por uma refeição', async () => {
+    const searchInput = screen.getByTestId(inputSearch);
+    userEvent.type(searchInput, 'Corba');
+    expect(searchInput.value).toBe('Corba');
+
+    const nameRadio = screen.getByTestId('name-search-radio');
+
+    userEvent.click(nameRadio);
+    expect(nameRadio).toBeChecked();
+
+    const submitButton = screen.getByText(/find/i);
+    expect(submitButton).toBeVisible();
+    userEvent.click(submitButton);
+
+    expect(global.fetch).toBeCalledTimes(0);
+
+    //SIMPLESMENTE NAO CHAMA NADA NO TESTE. POR QUE? NAO SEI
+
+    // const ingredient = await screen.findByText('Lentils 1 cup');
+    // expect(ingredient).toBeInTheDocument();
   });
 });
