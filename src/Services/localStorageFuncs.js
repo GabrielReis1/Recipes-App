@@ -29,7 +29,6 @@ export function LsProgress(action, id, type, detailRecipes) {
 export function LsDone(action, id, type, detailRecipes) {
   const getRecipesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
   let getDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-  console.log(getDoneRecipes);
   if (!getDoneRecipes) {
     getDoneRecipes = [];
   }

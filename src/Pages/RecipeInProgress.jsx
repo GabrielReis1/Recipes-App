@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useHistory, useLocation } from 'react-router-dom';
-import { LsDone, LsProgress } from '../Services/localStorageFuncs';
+import { LsDone } from '../Services/localStorageFuncs';
 import { useFilter } from '../Contexts/ProviderFilter';
 import ShareButton from '../Components/ShareButton';
 import FavoriteButton from '../Components/FavoriteButton';
@@ -14,40 +14,67 @@ function RecipeInProgress() {
   const { pathname } = useLocation();
   const type = pathname.includes('drinks') ? 'drinks' : 'meals';
   const { detailRecipes, setRecipeId } = useFilter();
-  const [ingredients, setIngredients] = useState([]);
-  const [checkedIngredients, setCheckedIngredients] = useState([]);
+  const [checkedIngredients, setCheckedIngredients] = useState(['']);
 
   useEffect(() => {
     const defaultLoad = () => {
       if (type === 'meals') {
         setRecipeId({ id, type: 'Meal' });
-      } else { setRecipeId({ id, type: 'Drink' }); }
+      } else {
+        setRecipeId({ id, type: 'Drink' });
+      }
     };
 
-    const getRecipe = () => {
-      const savedRecipe = LsProgress();
-      const recipe = savedRecipe[type]
-      && savedRecipe[type][id] ? savedRecipe[type][id] : {};
-      setIngredients(recipe);
+    const getProgressRecipe = () => {
+      const progressKey = `${type}-${id}`;
+      const progress = JSON.parse(localStorage.getItem('inProgressRecipes')) || {};
+      const savedCheckedIngredients = progress[progressKey] || [];
+      setCheckedIngredients(savedCheckedIngredients);
     };
 
     defaultLoad();
-    getRecipe();
+    getProgressRecipe();
   }, []);
+
+  const ingredients = detailRecipes
+      && Object.keys(detailRecipes)
+        .filter((ingredient) => ingredient.includes('strIngredient')
+        && detailRecipes[ingredient]);
 
   function handleIngredientClick(event) {
     const ingredient = event.target.value;
-    if (event.target.checked) {
-      setCheckedIngredients([...checkedIngredients, ingredient]);
+    const isChecked = event.target.checked;
+
+    const newCheckedIngredients = isChecked
+      ? [...checkedIngredients, ingredient]
+      : checkedIngredients.filter((i) => i !== ingredient);
+
+    const progressKey = `${type}-${id}`;
+    const progress = JSON.parse(localStorage.getItem('inProgressRecipes')) || {};
+
+    if (progress[progressKey]?.includes(ingredient)) {
+      progress[progressKey] = progress[progressKey].filter((i) => i !== ingredient);
     } else {
-      setCheckedIngredients(checkedIngredients.filter((i) => i !== ingredient));
+      progress[progressKey] = newCheckedIngredients;
     }
+
+    localStorage.setItem('inProgressRecipes', JSON.stringify(progress));
+    setCheckedIngredients(newCheckedIngredients);
   }
 
   function handleFinishRecipe() {
     LsDone('done', id, type, detailRecipes);
     history.push('/done-recipes');
   }
+
+  const allIngredientsChecked = checkedIngredients.length === ingredients.length
+  && (localStorage.getItem('inProgressRecipes')
+    ? checkedIngredients.every((ingredient) => {
+      const progress = JSON.parse(localStorage.getItem('inProgressRecipes')) || {};
+      const progressKey = `${type}-${id}`;
+      return progress[progressKey]?.includes(ingredient);
+    })
+    : true);
 
   const style = 'line-through solid rgb(0, 0, 0)';
 
@@ -92,7 +119,7 @@ function RecipeInProgress() {
       <fieldset>
         <legend>Ingredients</legend>
         <ul>
-          {ingredients?.map((ingredient, idx) => {
+          { ingredients.map((ingredient, idx) => {
             const isChecked = checkedIngredients.includes(ingredient);
             return (
               <li key={ idx }>
@@ -124,7 +151,8 @@ function RecipeInProgress() {
       <button
         type="button"
         data-testid="finish-recipe-btn"
-        onClick={ handleFinishRecipe }
+        onClick={ () => handleFinishRecipe() }
+        disabled={ !allIngredientsChecked }
       >
         Finish Recipe
       </button>

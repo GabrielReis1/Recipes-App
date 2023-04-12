@@ -8,3 +8,8 @@ main {
   height: auto;
   max-width: 100%;
 }
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
