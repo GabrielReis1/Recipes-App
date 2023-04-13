@@ -133,21 +133,3 @@ export const getRecipeById = async (type, id) => {
     return null;
   }
 };
-
-export const getIngredientAndMeasureList = (recipe) => {
-  const ingredients = [];
-  const measures = [];
-  const maxNum = 20;
-
-  for (let i = 1; i <= maxNum; i += 1) {
-    const ingredient = recipe[`strIngredient${i}`];
-    const measure = recipe[`strMeasure${i}`];
-
-    if (ingredient && measure) {
-      ingredients.push(ingredient);
-      measures.push(measure);
-    }
-  }
-
-  return ingredients.map((ingredient, index) => `${ingredient} - ${measures[index]}`);
-};
