@@ -1,6 +1,6 @@
 import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import DoneRecipes from '../Pages/Done';
+import DoneRecipes from '../Pages/DoneRecipes';
 import renderWithRouter from '../helpers/renderWithRouter';
 
 const grid = 'recipes-grid';
