@@ -9,6 +9,7 @@ import fetch from '../../cypress/mocks/fetch';
 const inputSearch = 'search-input';
 const searchTopBtn = 'search-top-btn';
 const ingredienteRadio = 'ingredient-search-radio';
+const subBtn = 'exec-search-btn';
 const login = async () => {
   act(() => {
     userEvent.type(screen.getByTestId('email-input'), 'teste@teste.com');
@@ -78,7 +79,7 @@ describe('Testa o componente SearchBar na Meals', () => {
       userEvent.type(searchInput, 'Chicken');
       expect(searchInput.value).toBe('Chicken');
 
-      const submitButton = screen.getByTestId('exec-search-btn');
+      const submitButton = screen.getByTestId(subBtn);
       userEvent.click(submitButton);
     });
     await waitFor(() => {
@@ -99,7 +100,7 @@ describe('Testa o componente SearchBar na Meals', () => {
       const ingredientRadio = screen.getByTestId(ingredienteRadio);
       userEvent.click(ingredientRadio);
 
-      const submitButton = screen.getByTestId('exec-search-btn');
+      const submitButton = screen.getByTestId(subBtn);
       userEvent.click(submitButton);
     });
     await waitFor(() => {
@@ -139,7 +140,7 @@ describe('Testa o componente SearchBar na Meals', () => {
     userEvent.click(firstLetterRadio);
     expect(firstLetterRadio).toBeChecked();
 
-    const submitButton = screen.getByTestId('exec-search-btn');
+    const submitButton = screen.getByTestId(subBtn);
     expect(submitButton).toBeVisible();
     userEvent.click(submitButton);
 
@@ -163,7 +164,7 @@ describe('Testa o componente SearchBar na Meals', () => {
     userEvent.click(nameRadio);
     expect(nameRadio).toBeChecked();
 
-    const submitButton = screen.getByTestId('exec-search-btn');
+    const submitButton = screen.getByTestId(subBtn);
     expect(submitButton).toBeVisible();
     userEvent.click(submitButton);
 
