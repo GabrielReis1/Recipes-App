@@ -35,7 +35,7 @@ h1, h2, h3, h4 {
 
 .login-page {
   align-items: center;
-  background-image: url('./images/login-bg.png');
+  background-image: url('./images/background-login.png');
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;

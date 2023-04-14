@@ -9,6 +9,8 @@ import { searchDrinkFirtsLetter,
   searchMealsName } from '../Services/ApiRequest';
 import { useFilter } from '../Contexts/ProviderFilter';
 
+import './searchbar.css';
+
 function SearchBar() {
   const {
     dataSearch,
@@ -73,7 +75,7 @@ function SearchBar() {
   ]);
 
   return (
-    <form>
+    <form className="search-bar">
       <input
         type="text"
         className="text-input"
@@ -122,20 +124,20 @@ function SearchBar() {
             value="firstLetter"
           />
         </label>
-      </div>
 
-      <button
-        type="button"
-        data-testid="exec-search-btn"
-        onClick={ (event) => handleSubmit(
-          event,
-          dataSearch.searchOptions,
-          dataSearch.textSearch,
-          page,
-        ) }
-      >
-        Find
-      </button>
+        <button
+          type="button"
+          data-testid="exec-search-btn"
+          onClick={ (event) => handleSubmit(
+            event,
+            dataSearch.searchOptions,
+            dataSearch.textSearch,
+            page,
+          ) }
+        >
+          Find
+        </button>
+      </div>
     </form>
 
   );

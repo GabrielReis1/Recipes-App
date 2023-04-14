@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import './login.css';
+import logo from '../images/logo.png';
 
 // requisitos da página de login feitos por todo o grupo em conjunto
 
@@ -29,7 +31,7 @@ function Login() {
 
   return (
     <section className="login-page">
-      <h2>RECIPES app</h2>
+      <img className="logoImg" src={ logo } alt="Logo MiniCheff" />
       <form onSubmit={ (e) => handleSubmit(e) } className="login-form">
         <h3>Login</h3>
         <label htmlFor="email-input">

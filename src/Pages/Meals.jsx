@@ -4,6 +4,8 @@ import Header from '../Components/Header';
 import Recipes from '../Components/Recipes';
 import { getMealsCategories, getMealsRecipes } from '../Services/ApiRequest';
 import { useFilter } from '../Contexts/ProviderFilter';
+import logo from '../images/logo.png';
+import './logo.css';
 
 function Meals() {
   const [mealsRecipes, setMealsRecipes] = useState([]);
@@ -30,7 +32,7 @@ function Meals() {
     <>
       <Header title="Meals" />
       { loading
-        ? <h3 className="loading">loading recipes...</h3>
+        ? <div className="logo-container"><img src={ logo } alt="logo-MiniCheff" className="logo-Minicheff" /></div>
         : (
           <Recipes
             path="Meal"

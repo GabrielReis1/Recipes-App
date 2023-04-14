@@ -1,0 +1,39 @@
+.done-recipes {
+  height: 100vh;
+}
+
+.recipes-grid {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+  height: 100vh;
+  justify-content: center;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.recipes-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.recipes-card {
+  background-color: #fefefe;
+  border: solid #efefef 1px;
+  border-radius: 10px;
+  max-height: 200px;
+  max-width: 155px;
+  overflow: hidden;
+}
+
+.card-img {
+  width: 155px;
+}
+
+.card-text {
+  font-size: 13px;
+  overflow: hidden;
+  padding: 1px 10px 5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -11,5 +11,27 @@ main {
 
 button:disabled {
   cursor: not-allowed;
+  margin-bottom: 2rem;
   opacity: 0.5;
+}
+
+.list-inprogress ul {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+.list-inprogress li {
+  align-items: center;
+  display: flex;
+}
+
+.list-inprogress label {
+  display: flex;
+}
+
+.list-inprogress input {
+  margin-right: 0.25rem;
 }

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import './header.css';
+import logo from '../images/logo.png';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
@@ -13,7 +14,7 @@ function Header({ title }) {
   return (
     <header data-testid="header-component">
       <section className="header-bar">
-        <h3>RECIPES app</h3>
+        <img src={ logo } alt="MiniCheff Logo" className="logo-img" />
         <div className="header-icons">
           {(title === 'Meals' || title === 'Drinks')
           && <input

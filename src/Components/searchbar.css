@@ -1,0 +1,31 @@
+.search-bar {
+  background-color: rgb(123, 56, 223);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-bar div {
+  align-items: center;
+  color: white;
+  display: flex;
+  font-size: 12px;
+  gap: 0.7rem;
+  height: 40px;
+  padding: 0 0.8rem;
+}
+
+.search-bar label {
+  align-items: center;
+  display: flex;
+  gap: 0.2rem;
+}
+
+.search-bar button {
+  background-color: #fb0;
+  color: rgb(123, 56, 223);
+  font-size: 12px;
+  font-weight: 700;
+  margin: 0;
+  padding: 3px 5px;
+}

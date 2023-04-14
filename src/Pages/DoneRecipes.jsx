@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from '../Components/Header';
 import { LsDone } from '../Services/localStorageFuncs';
 import ShareButton from '../Components/ShareButton';
+import '../Components/done-favorites.css';
 
 function DoneRecipes() {
   const [allRecipes, setAllRecipes] = useState();
@@ -51,7 +52,7 @@ function DoneRecipes() {
           <article
             key={ index }
             data-testid={ `${index}-recipe-card` }
-            className="recipes-card"
+            className="card"
             aria-hidden="true"
           >
             <Link

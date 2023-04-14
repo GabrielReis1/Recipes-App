@@ -11,8 +11,6 @@ import '../Components/recipes.css';
 function RecipeInProgress() {
   const { id } = useParams();
   const history = useHistory();
-  const { id } = useParams();
-  const history = useHistory();
   const { pathname } = useLocation();
   const type = pathname.includes('drinks') ? 'drinks' : 'meals';
   const { detailRecipes, setRecipeId } = useFilter();
@@ -118,7 +116,7 @@ function RecipeInProgress() {
         { detailRecipes.strMeal || detailRecipes.strDrink }
       </h1>
 
-      <fieldset>
+      <fieldset className="list-inprogress">
         <legend>Ingredients</legend>
         <ul>
           { ingredients.map((ingredient, idx) => {
