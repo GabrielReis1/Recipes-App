@@ -1,5 +1,21 @@
 .card {
   align-items: center;
+  border: 1px solid #999;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  height: 155px;
+  justify-content: space-between;
+  width: 90%;
+}
+
+.card-infos {
   display: flex;
   flex-direction: column;
+  width: 50%;
+}
+
+.share-and-favorite {
+  margin: 0;
+  margin-left: 30px;
 }
